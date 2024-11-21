@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="مطاعم الجزائر, سجل مشروعك, مطاعم بوسعادة, مشاريع صغيرة, توصيل الطعام">
+    <meta name="description" content="سجل مشروعك الآن على موقع مشاريعي واحصل على فرصة لإبراز مشروعك أو مطعمك في الجزائر.">
+  <title>تسجيل خدمات التوصيل</title>
+
+  <!-- Firebase App (تحميل Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #ffcccb;
+      padding: 20px;
+      color: white;
+    }
+    form {
+      margin: 50px auto;
+      max-width: 400px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff4081;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>تسجيل خدمات التوصيل</h1>
+  </header>
+
+  <form id="delivery-form">
+    <input type="text" id="deliveryPersonName" placeholder="اسم مندوب التوصيل" required />
+    <input type="tel" id="deliveryPhone" placeholder="رقم الهاتف" required />
+    <input type="text" id="deliveryVehicle" placeholder="نوع المركبة" required />
+    <button type="submit">تسجيل</button>
+  </form>
+
+  <script>
+    // إعداد Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyA5xgsxCBFFnSuJgrmfGxEg98iVfiNlZYw",
+      authDomain: "myrestaurantweb-76490.firebaseapp.com",
+      projectId: "myrestaurantweb-76490",
+      storageBucket: "myrestaurantweb-76490.appspot.com",
+      messagingSenderId: "697969807289",
+      appId: "1:697969807289:web:c95424d4c68db660ecb068",
+      measurementId: "G-0XPEK3GZNB"
+    };
+
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // وظيفة تسجيل مندوب التوصيل
+    document.getElementById("delivery-form").addEventListener("submit", async (event) => {
+      event.preventDefault(); // منع إعادة تحميل الصفحة
+
+      const deliveryPersonName = document.getElementById("deliveryPersonName").value;
+      const deliveryPhone = document.getElementById("deliveryPhone").value;
+      const deliveryVehicle = document.getElementById("deliveryVehicle").value;
+
+      try {
+        // إضافة المستند إلى مجموعة "deliveries"
+        await db.collection("deliveries").add({
+          name: deliveryPersonName,
+          phone: deliveryPhone,
+          vehicle: deliveryVehicle,
+          registeredAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("تم تسجيل مندوب التوصيل بنجاح!");
+        document.getElementById("delivery-form").reset(); // إعادة تعيين النموذج
+      } catch (error) {
+        console.error("خطأ أثناء التسجيل:", error);
+        alert("حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.");
+      }
+    });
+  </script>
+   <footer style="text-align: center; margin-top: 40px; padding: 20px; background-color: #ffcccb;">
+    <p>&copy; 2024 جميع الحقوق محفوظة - مطعمي</p>
+</footer>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="9668778551"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<!-- aitar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="8519478297"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="2658042878"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-gw-3+1f-3d+2z"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="4078935753"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</html>

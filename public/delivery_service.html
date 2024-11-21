@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="مطاعم الجزائر, سجل مشروعك, مطاعم بوسعادة, مشاريع صغيرة, توصيل الطعام">
+  <meta name="description" content="سجل مشروعك الآن على موقع مشاريعي واحصل على فرصة لإبراز مشروعك أو مطعمك في الجزائر.">
+  <title>خدمات التوصيل المتوفرة</title>
+
+  <!-- Firebase App (تحميل Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #ffcccb;
+      padding: 20px;
+      color: white;
+    }
+    #delivery-list {
+      margin: 20px auto;
+      max-width: 600px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .delivery-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+    .delivery-item h3 {
+      margin: 0;
+      color: #ff4081;
+    }
+    .delivery-item p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>خدمات التوصيل المتوفرة</h1>
+  </header>
+
+  <div id="delivery-list">
+    <h2>قائمة خدمات التوصيل</h2>
+    <!-- سيتم عرض الخدمات هنا -->
+  </div>
+
+  <script>
+    // إعداد Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyA5xgsxCBFFnSuJgrmfGxEg98iVfiNlZYw",
+      authDomain: "myrestaurantweb-76490.firebaseapp.com",
+      projectId: "myrestaurantweb-76490",
+      storageBucket: "myrestaurantweb-76490.appspot.com",
+      messagingSenderId: "697969807289",
+      appId: "1:697969807289:web:c95424d4c68db660ecb068",
+      measurementId: "G-0XPEK3GZNB"
+    };
+
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // جلب وعرض قائمة خدمات التوصيل من Firestore
+    async function fetchDeliveries() {
+      const deliveryList = document.getElementById("delivery-list");
+      deliveryList.innerHTML = "<h2>قائمة خدمات التوصيل</h2>"; // إعادة تعيين المحتوى
+
+      try {
+        const querySnapshot = await db.collection("deliveries").get();
+        if (querySnapshot.empty) {
+          deliveryList.innerHTML += "<p>لا توجد خدمات توصيل متاحة حالياً.</p>";
+          return;
+        }
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const deliveryItem = document.createElement("div");
+          deliveryItem.className = "delivery-item";
+
+          // عرض بيانات كل خدمة توصيل
+          deliveryItem.innerHTML = `
+            <h3>مندوب التوصيل: ${data.name}</h3>
+            <p><strong>رقم الهاتف:</strong> ${data.phone}</p>
+            <p><strong>نوع المركبة:</strong> ${data.vehicle}</p>
+          `;
+          
+          deliveryList.appendChild(deliveryItem);
+        });
+      } catch (error) {
+        console.error("خطأ في جلب البيانات:", error);
+        deliveryList.innerHTML += "<p>حدث خطأ أثناء تحميل الخدمات. يرجى المحاولة لاحقًا.</p>";
+      }
+    }
+
+    // جلب القائمة عند تحميل الصفحة
+    window.addEventListener("load", fetchDeliveries);
+  </script>
+   <footer style="text-align: center; margin-top: 40px; padding: 20px; background-color: #ffcccb;">
+    <p>&copy; 2024 جميع الحقوق محفوظة - مطعمي</p>
+</footer>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="9668778551"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<!-- aitar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="8519478297"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="2658042878"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-gw-3+1f-3d+2z"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="4078935753"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="مطاعم الجزائر, سجل مشروعك, مطاعم بوسعادة, مشاريع صغيرة, توصيل الطعام">
+    <meta name="description" content="سجل مشروعك الآن على موقع مشاريعي واحصل على فرصة لإبراز مشروعك أو مطعمك في الجزائر.">
+    <title>تسجيل المطاعم ومحلات الحلويات والمشاريع</title>
+    <style>
+
+        body {
+            background-color: #ffe4e1; /* لون وردي خفيف */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            background-color: #fff8dc; /* لون أصفر فاتح */
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 1000px; /* زيادة الحد الأقصى للعرض */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #ff1493; /* لون وردي داكن */
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff69b4; /* لون وردي */
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+        img.header-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .restaurant-list {
+            display: flex;
+            flex-wrap: wrap; /* للسماح للعناصر باللف */
+            justify-content: space-around; /* توزيع العناصر بالتساوي */
+            margin-top: 20px;
+        }
+        .restaurant-item {
+            width: 300px; /* تحديد عرض ثابت لكل عنصر */
+            margin: 10px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .restaurant-item img {
+            width: 100%; /* عرض الصورة ليكون 100% من عنصر المطعم */
+            height: 200px; /* ارتفاع ثابت للصورة */
+            object-fit: cover; /* تغطية الصورة بدون تشويه */
+            border-radius: 10px;
+        }
+        </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تسجيل المطعم / محل الحلويات</h1>
+        <p class="welcome-message">أهلاً بكم يمكنكم الآن تسجيل مشاريعكم بسهولة.</p>
+
+        <form id="restaurant-form">
+            <input type="text" id="name" placeholder="اسم المطعم / محل الحلويات" required>
+            <input type="text" id="address" placeholder="عنوان المطعم / محل الحلويات" required>
+            <input type="text" id="phone" placeholder="رقم الهاتف" required>
+            <input type="number" id="price" placeholder="السعر" required> <!-- حقل السعر الجديد -->
+            <input type="text" id="dish" placeholder="اسم الطبق / نوع الحلوى" required>
+            <input type="file" id="image" required>
+            <select id="delivery">
+                <option value="yes">التوصيل متوفر</option>
+                <option value="no">التوصيل غير متوفر</option>
+            </select>
+            <button type="submit">تسجيل المتجر</button>
+        </form>
+
+        <h2>تسجيل مشروع آخر</h2>
+        <form id="project-form">
+            <input type="text" id="proj-name" placeholder="اسم المشروع" required>
+            <input type="text" id="proj-address" placeholder="العنوان" required>
+            <input type="text" id="proj-phone" placeholder="رقم الهاتف" required>
+            <input type="text" id="proj-item" placeholder="اسم المنتج أو الخدمة" required>
+            <input type="file" id="proj-image" accept="image/*" required>
+            <input type="number" id="proj-price" placeholder="السعر" required>
+            <select id="proj-delivery">
+                <option value="yes">التوصيل متوفر</option>
+                <option value="no">التوصيل غير متوفر</option>
+            </select>
+            <button type="submit">تسجيل المشروع</button>
+        </form>
+    </div>
+    <div class="restaurant-list" id="restaurant-list">
+        <!-- المطاعم والمشاريع المسجلة ستظهر هنا -->
+    </div>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5gxxxxx",
+            authDomain: "myrestaurantweb-76490.firebaseapp.com",
+            projectId: "myrestaurantweb-76490",
+            storageBucket: "myrestaurantweb-76490.appspot.com",
+            messagingSenderId: "69790876289",
+            appId: "1:69790876289:web:c954a24ddc8d66b0f86c28",
+            measurementId: "G-9XEPX3NZ8G"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // Fetch and display registered restaurants and projects
+        async function fetchEntries() {
+            const querySnapshot = await getDocs(collection(db, "restaurants"));
+            const projectSnapshot = await getDocs(collection(db, "projects"));
+
+            const restaurantList = document.getElementById('restaurant-list');
+            restaurantList.innerHTML = ""; 
+
+            querySnapshot.forEach((doc) => {
+                const restaurant = doc.data();
+                const restaurantItem = document.createElement('div');
+                restaurantItem.classList.add('restaurant-item');
+                restaurantItem.innerHTML = `
+                    <h3>${restaurant.name}</h3>
+                    <p>العنوان: ${restaurant.address}</p>
+                    <p>الهاتف: ${restaurant.phone}</p>
+                    <p>الطبق: ${restaurant.dish}</p>
+                    <p>السعر: ${restaurant.price} دج </p> <!-- عرض السعر -->
+                    <p>التوصيل: ${restaurant.delivery === 'yes' ? 'متوفر' : 'غير متوفر'}</p>
+                    <img src="${restaurant.image}" alt="${restaurant.dish}">
+                `;
+                restaurantList.appendChild(restaurantItem);
+            });
+
+            projectSnapshot.forEach((doc) => {
+                const project = doc.data();
+                const projectItem = document.createElement('div');
+                projectItem.classList.add('restaurant-item');
+                projectItem.innerHTML = `
+                    <h3>${project.name}</h3>
+                    <p>العنوان: ${project.address}</p>
+                    <p>الهاتف: ${project.phone}</p>
+                    <p>المنتج أو الخدمة: ${project.item}</p>
+                    <p>السعر: ${project.price} دج  </p> <!-- عرض السعر -->
+                    <p>التوصيل: ${project.delivery === 'yes' ? 'متوفر' : 'غير متوفر'}</p>
+                    <img src="${project.image}" alt="${project.item}">
+                `;
+                restaurantList.appendChild(projectItem);
+            });
+        }
+
+        window.onload = fetchEntries;
+
+        const restaurantForm = document.getElementById('restaurant-form');
+        restaurantForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+            const price = document.getElementById('price').value; // الحصول على السعر
+            const dish = document.getElementById('dish').value;
+            const delivery = document.getElementById('delivery').value;
+            const image = document.getElementById('image').files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = async () => {
+                try {
+                    await addDoc(collection(db, "restaurants"), {
+                        name: name,
+                        address: address,
+                        phone: phone,
+                        price: price, // إضافة السعر
+                        dish: dish,
+                        delivery: delivery,
+                        image: reader.result
+                    });
+                    alert("تم تسجيل المطعم بنجاح!");
+                    restaurantForm.reset();
+                    fetchEntries(); // Refresh the displayed entries
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                }
+            };
+
+            if (image) {
+                reader.readAsDataURL(image);
+            }
+        });
+
+        const projectForm = document.getElementById('project-form');
+        projectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const projName = document.getElementById('proj-name').value;
+            const projAddress = document.getElementById('proj-address').value;
+            const projPhone = document.getElementById('proj-phone').value;
+            const projItem = document.getElementById('proj-item').value;
+            const projDelivery = document.getElementById('proj-delivery').value;
+            const projImage = document.getElementById('proj-image').files[0];
+            const projPrice = document.getElementById('proj-price').value;
+            const projReader = new FileReader();
+
+            projReader.onloadend = async () => {
+                try {
+                    await addDoc(collection(db, "projects"), {
+                        name: projName,
+                        address: projAddress,
+                        phone: projPhone,
+                        item: projItem,
+                        delivery: projDelivery,
+                        price: projPrice,
+                        image: projReader.result
+                    });
+                    alert("تم تسجيل المشروع بنجاح!");
+                    projectForm.reset();
+                    fetchEntries(); // Refresh the displayed entries
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                }
+            };
+
+            if (projImage) {
+                projReader.readAsDataURL(projImage);
+            }
+        });
+    </script>
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; background-color: #ffcccb;">
+        <p>&copy; 2024 جميع الحقوق محفوظة - مطعمي</p>
+    </footer>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="9668778551"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<!-- aitar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="8519478297"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="2658042878"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5197908833805470"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-gw-3+1f-3d+2z"
+     data-ad-client="ca-pub-5197908833805470"
+     data-ad-slot="4078935753"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</html>
+
